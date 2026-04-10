@@ -1,0 +1,2275 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembukuan Andilan Gula</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #FDF6EC;
+            --sb: #1E140B;
+            --sbh: #2F1E13;
+            --card: #fff;
+            --ac: #C2703E;
+            --ach: #A85A30;
+            --acl: #F5E6D8;
+            --tx: #2C1810;
+            --mt: #8B7355;
+            --ok: #4A7C59;
+            --no: #B44040;
+            --wn: #D4960A;
+            --bd: #E8D5C0
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--tx);
+            overflow-x: hidden
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Playfair Display', serif
+        }
+
+        .sb {
+            width: 250px;
+            min-height: 100vh;
+            background: var(--sb);
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 40;
+            transition: transform .3s;
+            display: flex;
+            flex-direction: column
+        }
+
+        .sb-logo {
+            padding: 22px 18px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, .06)
+        }
+
+        .sb-logo h2 {
+            color: #F5E6D8;
+            font-size: 1.15rem
+        }
+
+        .sb-logo span {
+            color: var(--ac)
+        }
+
+        .sb-logo p {
+            color: #6B5440;
+            font-size: .7rem;
+            margin-top: 2px
+        }
+
+        .sb-nav {
+            flex: 1;
+            padding: 10px 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            overflow-y: auto
+        }
+
+        .sb-nav a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 13px;
+            border-radius: 9px;
+            color: #BFA88A;
+            text-decoration: none;
+            font-size: .82rem;
+            font-weight: 500;
+            transition: all .2s;
+            cursor: pointer
+        }
+
+        .sb-nav a:hover {
+            background: var(--sbh);
+            color: #F5E6D8
+        }
+
+        .sb-nav a.active {
+            background: var(--ac);
+            color: #fff
+        }
+
+        .sb-nav a i {
+            width: 17px;
+            text-align: center;
+            font-size: .88rem
+        }
+
+        .sb-ft {
+            padding: 12px 16px;
+            border-top: 1px solid rgba(255, 255, 255, .06)
+        }
+
+        .sb-ft .fl {
+            color: #6B5440;
+            font-size: .68rem
+        }
+
+        .sb-ft .fv {
+            color: #F5E6D8;
+            font-size: .92rem;
+            font-weight: 700
+        }
+
+        .mc {
+            margin-left: 250px;
+            min-height: 100vh
+        }
+
+        .mh {
+            background: rgba(253, 246, 236, .9);
+            backdrop-filter: blur(12px);
+            padding: 13px 26px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            border-bottom: 1px solid var(--bd)
+        }
+
+        .mh h1 {
+            font-size: 1.3rem
+        }
+
+        .ca {
+            padding: 22px 26px
+        }
+
+        .sc {
+            background: var(--card);
+            border-radius: 13px;
+            padding: 16px;
+            border: 1px solid var(--bd);
+            box-shadow: 0 1px 3px rgba(44, 24, 16, .04);
+            transition: transform .2s, box-shadow .2s
+        }
+
+        .sc:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(44, 24, 16, .07)
+        }
+
+        .sc .ib {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .95rem
+        }
+
+        .sc .vl {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-top: 9px
+        }
+
+        .sc .lb {
+            font-size: .73rem;
+            color: var(--mt);
+            margin-top: 1px
+        }
+
+        .tw {
+            background: var(--card);
+            border-radius: 13px;
+            border: 1px solid var(--bd);
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(44, 24, 16, .04)
+        }
+
+        .tw table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        .tw th {
+            background: var(--acl);
+            padding: 10px 13px;
+            text-align: left;
+            font-size: .72rem;
+            font-weight: 700;
+            color: var(--mt);
+            text-transform: uppercase;
+            letter-spacing: .4px
+        }
+
+        .tw td {
+            padding: 9px 13px;
+            border-top: 1px solid var(--bd);
+            font-size: .83rem;
+            vertical-align: middle
+        }
+
+        .tw tr:hover td {
+            background: rgba(194, 112, 62, .03)
+        }
+
+        .es {
+            padding: 36px 18px;
+            text-align: center;
+            color: var(--mt)
+        }
+
+        .es i {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            opacity: .22;
+            display: block
+        }
+
+        .bg {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 18px;
+            font-size: .7rem;
+            font-weight: 600
+        }
+
+        .bg-o {
+            background: #E8F5E9;
+            color: var(--ok)
+        }
+
+        .bg-w {
+            background: #FFF8E1;
+            color: var(--wn)
+        }
+
+        .bg-n {
+            background: #FFEBEE;
+            color: var(--no)
+        }
+
+        .bg-i {
+            background: #E3F2FD;
+            color: #1565C0
+        }
+
+        .bt {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: .82rem;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all .2s;
+            font-family: inherit
+        }
+
+        .bt-p {
+            background: var(--ac);
+            color: #fff
+        }
+
+        .bt-p:hover {
+            background: var(--ach);
+            transform: translateY(-1px)
+        }
+
+        .bt-s {
+            padding: 5px 10px;
+            font-size: .76rem;
+            border-radius: 7px
+        }
+
+        .bt-g {
+            background: transparent;
+            color: var(--mt)
+        }
+
+        .bt-g:hover {
+            background: var(--acl);
+            color: var(--ac)
+        }
+
+        .bt-d {
+            background: transparent;
+            color: var(--no)
+        }
+
+        .bt-d:hover {
+            background: #FFEBEE
+        }
+
+        .bt-ok {
+            background: var(--ok);
+            color: #fff
+        }
+
+        .bt-ok:hover {
+            background: #3D6A4A
+        }
+
+        .bt-w {
+            background: var(--wn);
+            color: #fff
+        }
+
+        .bt-w:hover {
+            background: #B8860B
+        }
+
+        .mo {
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 20, 11, .55);
+            backdrop-filter: blur(4px);
+            z-index: 50;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 12px
+        }
+
+        .mo.show {
+            display: flex
+        }
+
+        .mb {
+            background: var(--card);
+            border-radius: 16px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(30, 20, 11, .18);
+            animation: mI .22s ease
+        }
+
+        @keyframes mI {
+            from {
+                opacity: 0;
+                transform: scale(.96) translateY(6px)
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0)
+            }
+        }
+
+        .mhd {
+            padding: 18px 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .mhd h3 {
+            font-size: 1.1rem
+        }
+
+        .mx {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: none;
+            background: var(--acl);
+            color: var(--mt);
+            cursor: pointer;
+            font-size: .82rem;
+            transition: all .2s
+        }
+
+        .mx:hover {
+            background: var(--no);
+            color: #fff
+        }
+
+        .mbo {
+            padding: 16px 20px 20px
+        }
+
+        .fg {
+            margin-bottom: 13px
+        }
+
+        .fg label {
+            display: block;
+            font-size: .78rem;
+            font-weight: 600;
+            color: var(--mt);
+            margin-bottom: 4px
+        }
+
+        .fc {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1.5px solid var(--bd);
+            border-radius: 8px;
+            font-size: .86rem;
+            font-family: inherit;
+            background: var(--bg);
+            color: var(--tx);
+            transition: border-color .2s;
+            outline: none
+        }
+
+        .fc:focus {
+            border-color: var(--ac)
+        }
+
+        select.fc {
+            cursor: pointer
+        }
+
+        .tc {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 6px
+        }
+
+        .tt {
+            padding: 11px 16px;
+            border-radius: 10px;
+            font-size: .83rem;
+            font-weight: 500;
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, .15);
+            animation: tI .3s ease, tO .3s ease 2.7s forwards;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 220px
+        }
+
+        .tt-o {
+            background: var(--ok)
+        }
+
+        .tt-n {
+            background: var(--no)
+        }
+
+        .tt-i {
+            background: var(--ac)
+        }
+
+        @keyframes tI {
+            from {
+                opacity: 0;
+                transform: translateX(32px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0)
+            }
+        }
+
+        @keyframes tO {
+            from {
+                opacity: 1
+            }
+
+            to {
+                opacity: 0;
+                transform: translateY(-6px)
+            }
+        }
+
+        .pg {
+            display: none;
+            animation: pI .28s ease
+        }
+
+        .pg.active {
+            display: block
+        }
+
+        @keyframes pI {
+            from {
+                opacity: 0;
+                transform: translateY(5px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        #ptc {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none
+        }
+
+        .shu-bar {
+            background: linear-gradient(135deg, #C2703E 0%, #D4960A 100%);
+            color: #fff;
+            border-radius: 14px;
+            padding: 22px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .shu-bar::before {
+            content: '';
+            position: absolute;
+            top: -25px;
+            right: -25px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .1)
+        }
+
+        .shu-bar::after {
+            content: '';
+            position: absolute;
+            bottom: -14px;
+            left: 32%;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .06)
+        }
+
+        .mnc {
+            background: var(--card);
+            border: 1px solid var(--bd);
+            border-radius: 13px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all .2s;
+            position: relative;
+            overflow: hidden
+        }
+
+        .mnc:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(44, 24, 16, .08);
+            border-color: var(--ac)
+        }
+
+        .mnc.has {
+            border-left: 4px solid var(--ok)
+        }
+
+        .mnc.emp {
+            border-left: 4px solid var(--bd);
+            opacity: .7
+        }
+
+        .mnc .mn-t {
+            font-weight: 700;
+            font-size: .92rem;
+            margin-bottom: 5px
+        }
+
+        .mnc .mn-s {
+            font-size: .76rem;
+            color: var(--mt)
+        }
+
+        .mtg {
+            display: none;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            border: 1px solid var(--bd);
+            background: var(--card);
+            color: var(--tx);
+            cursor: pointer;
+            font-size: .95rem;
+            align-items: center;
+            justify-content: center
+        }
+
+        .sbo {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 20, 11, .4);
+            z-index: 35
+        }
+
+        @media(max-width:768px) {
+            .sb {
+                transform: translateX(-100%)
+            }
+
+            .sb.open {
+                transform: translateX(0)
+            }
+
+            .sbo.show {
+                display: block
+            }
+
+            .mc {
+                margin-left: 0
+            }
+
+            .mh {
+                padding: 11px 14px
+            }
+
+            .ca {
+                padding: 14px
+            }
+
+            .mtg {
+                display: flex
+            }
+        }
+
+        /* THERMAL */
+        #tpa {
+            display: none
+        }
+
+        @media print {
+            body>*:not(#tpa) {
+                display: none !important
+            }
+
+            #tpa {
+                display: block !important;
+                position: static !important;
+                width: 76mm;
+                margin: 0 auto !important
+            }
+
+            @page {
+                size: 80mm auto;
+                margin: 1.5mm
+            }
+        }
+
+        #tpa {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 9px;
+            line-height: 1.32;
+            color: #000
+        }
+
+        #tpa pre {
+            margin: 0;
+            white-space: pre;
+            font-family: inherit;
+            font-size: inherit;
+            line-height: inherit
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--bd);
+            border-radius: 3px
+        }
+
+        .info-box {
+            background: #FFF8E1;
+            border: 1px solid #FFD54F;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: .82rem;
+            color: #7B6B2E;
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            margin-bottom: 14px
+        }
+
+        .info-box i {
+            margin-top: 2px;
+            color: var(--wn)
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="ptc"></canvas>
+    <div class="tc" id="tC"></div>
+    <div class="sbo" id="sbO" onclick="togSB()"></div>
+
+    <!-- Modal -->
+    <div class="mo" id="moO" onclick="if(event.target===this)clM()">
+        <div class="mb">
+            <div class="mhd">
+                <h3 id="moT"></h3><button class="mx" onclick="clM()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="mbo" id="moB"></div>
+        </div>
+    </div>
+    <!-- Konfirmasi -->
+    <div class="mo" id="coO" onclick="if(event.target===this)clC()">
+        <div class="mb" style="max-width:360px">
+            <div class="mbo" style="text-align:center;padding:26px 20px">
+                <div style="width:46px;height:46px;border-radius:50%;background:#FFEBEE;display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px"><i class="fas fa-exclamation-triangle" style="color:var(--no)"></i></div>
+                <p id="coM" style="font-weight:600;margin-bottom:3px"></p>
+                <p style="font-size:.8rem;color:var(--mt);margin-bottom:18px">Tindakan ini tidak dapat dibatalkan.</p>
+                <div style="display:flex;gap:8px;justify-content:center"><button class="bt bt-g" onclick="clC()">Batal</button><button class="bt" id="coY" style="background:var(--no);color:#fff">Hapus</button></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Area Cetak Thermal -->
+    <div id="tpa"></div>
+
+    <div id="app">
+        <aside class="sb" id="sb">
+            <div class="sb-logo">
+                <h2><span>Andilan</span> Gula</h2>
+                <p id="sbNm">Tabungan Gula Bersama</p>
+            </div>
+            <nav class="sb-nav">
+                <a data-p="dashboard" class="active" onclick="go('dashboard')"><i class="fas fa-th-large"></i> Dashboard</a>
+                <a data-p="anggota" onclick="go('anggota')"><i class="fas fa-users"></i> Data Anggota</a>
+                <a data-p="masuk" onclick="go('masuk')"><i class="fas fa-arrow-circle-down"></i> Uang Masuk</a>
+                <a data-p="keluar" onclick="go('keluar')"><i class="fas fa-arrow-circle-up"></i> Uang Keluar</a>
+                <a data-p="pinjaman" onclick="go('pinjaman')"><i class="fas fa-hand-holding-usd"></i> Data Peminjam</a>
+                <a data-p="bulanan" onclick="go('bulanan')"><i class="fas fa-calendar-alt"></i> Laporan Bulanan</a>
+                <a data-p="shu" onclick="go('shu')"><i class="fas fa-chart-pie"></i> SHU</a>
+            </nav>
+            <div class="sb-ft">
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="fl">Nilai / Lot</span><span class="fv" style="font-size:.82rem">Rp 20.000</span></div>
+                <div style="display:flex;justify-content:space-between"><span class="fl">Periode</span><span class="fv" style="font-size:.82rem" id="sbPr"></span></div>
+                <button class="bt bt-g bt-s" style="width:100%;margin-top:8px;justify-content:center" onclick="openSet()"><i class="fas fa-cog"></i> Pengaturan</button>
+            </div>
+        </aside>
+
+        <div class="mc">
+            <header class="mh">
+                <div style="display:flex;align-items:center;gap:10px">
+                    <button class="mtg" onclick="togSB()"><i class="fas fa-bars"></i></button>
+                    <h1 id="pT">Dashboard</h1>
+                </div>
+                <div style="display:flex;gap:6px">
+                    <button class="bt bt-s bt-g" onclick="loadEx()"><i class="fas fa-database"></i> <span class="hidden sm:inline">Contoh</span></button>
+                    <button class="bt bt-s bt-d" onclick="rstAll()"><i class="fas fa-undo"></i></button>
+                </div>
+            </header>
+            <div class="ca">
+
+                <!-- DASHBOARD -->
+                <div class="pg active" id="pg-dashboard">
+                    <div class="info-box"><i class="fas fa-info-circle"></i><span><strong>Andilan Gula</strong> — Tabungan yang dibagikan per lot. SHU = Iuran + Denda + Bunga Pinjaman − Pengeluaran, dibagi rata ke anggota sesuai jumlah lot masing-masing.</span></div>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3 mb-6" id="sC"></div>
+                    <div class="grid lg:grid-cols-2 gap-5">
+                        <div class="tw">
+                            <div style="padding:14px 16px;border-bottom:1px solid var(--bd)">
+                                <h3 style="font-size:.92rem">Transaksi Terakhir</h3>
+                            </div>
+                            <div id="rTx"></div>
+                        </div>
+                        <div class="tw">
+                            <div style="padding:14px 16px;border-bottom:1px solid var(--bd)">
+                                <h3 style="font-size:.92rem">Pinjaman Aktif</h3>
+                            </div>
+                            <div id="aL"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ANGGOTA -->
+                <div class="pg" id="pg-anggota">
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+                        <p style="color:var(--mt);font-size:.83rem" id="aCt"></p>
+                        <button class="bt bt-p" onclick="fAngg()"><i class="fas fa-plus"></i> Tambah Anggota</button>
+                    </div>
+                    <div class="tw">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>Lot</th>
+                                    <th>Nominal Lot</th>
+                                    <th>Tgl Gabung</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="aTb"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- UANG MASUK -->
+                <div class="pg" id="pg-masuk">
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+                        <p style="color:var(--mt);font-size:.83rem" id="iCt"></p>
+                        <button class="bt bt-p" onclick="fMasuk()"><i class="fas fa-plus"></i> Tambah Uang Masuk</button>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4" id="iSum"></div>
+                    <div class="tw">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tgl</th>
+                                    <th>Tipe</th>
+                                    <th>Keterangan</th>
+                                    <th>Anggota</th>
+                                    <th>Jumlah</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="iTb"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- UANG KELUAR -->
+                <div class="pg" id="pg-keluar">
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+                        <p style="color:var(--mt);font-size:.83rem" id="eCt"></p>
+                        <button class="bt bt-p" onclick="fKeluar()"><i class="fas fa-plus"></i> Tambah Uang Keluar</button>
+                    </div>
+                    <div class="tw">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Tgl</th>
+                                    <th>Keterangan</th>
+                                    <th>Jumlah</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="eTb"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- PINJAMAN -->
+                <div class="pg" id="pg-pinjaman">
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+                        <p style="color:var(--mt);font-size:.83rem" id="lCt"></p>
+                        <button class="bt bt-p" onclick="fPinj()"><i class="fas fa-plus"></i> Tambah Pinjaman</button>
+                    </div>
+                    <div class="tw">
+                        <div style="overflow-x:auto">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Anggota</th>
+                                        <th>Pokok</th>
+                                        <th>Bunga 5%</th>
+                                        <th>Total</th>
+                                        <th>Dibayar</th>
+                                        <th>Sisa</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lTb"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BULANAN -->
+                <div class="pg" id="pg-bulanan">
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+                        <p style="color:var(--mt);font-size:.83rem" id="bInf"></p>
+                        <button class="bt bt-p bt-s" onclick="printAllM()"><i class="fas fa-print"></i> Cetak Semua Sambung</button>
+                    </div>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" id="mG"></div>
+                </div>
+
+                <!-- SHU -->
+                <div class="pg" id="pg-shu">
+                    <div class="info-box"><i class="fas fa-calculator"></i><span>SHU = Total Iuran + Total Denda Keterlambatan + Bunga Pinjaman − Total Pengeluaran. Seluruh SHU dibagi rata per lot ke semua anggota aktif.</span></div>
+                    <div class="grid lg:grid-cols-4 gap-4 mb-5" id="sSm"></div>
+                    <div class="shu-bar mb-5" id="sMn"></div>
+                    <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+                        <h3 style="font-size:1rem">Distribusi SHU ke Anggota Aktif</h3>
+                        <button class="bt bt-p bt-s" onclick="printSHU()"><i class="fas fa-print"></i> Cetak Struk SHU</button>
+                    </div>
+                    <div class="tw">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nama Anggota</th>
+                                    <th>Lot</th>
+                                    <th>Proporsi</th>
+                                    <th>Lot SHU</th>
+                                    <th>Total Bagian</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sTb"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const LV = 20000;
+        const MN = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        const MS = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des'];
+        const BO = [3, 4, 5, 6, 7, 8, 9, 10, 11, 0, 1, 2]; // Apr→Mar
+        const TW = 44;
+
+        /* DATA */
+        const G = {
+            g(k) {
+                try {
+                    return JSON.parse(localStorage.getItem('nd_' + k) || '[]')
+                } catch {
+                    return []
+                }
+            },
+            s(k, v) {
+                localStorage.setItem('nd_' + k, JSON.stringify(v))
+            },
+            gs(k) {
+                return localStorage.getItem('nd_' + k) || ''
+            },
+            ss(k, v) {
+                localStorage.setItem('nd_' + k, v)
+            }
+        };
+        const gM = () => G.g('m'),
+            gI = () => G.g('i'),
+            gE = () => G.g('e'),
+            gL = () => G.g('l');
+        const gNm = () => G.gs('nm') || 'Andilan Gula';
+        const gYr = () => parseInt(G.gs('yr')) || dYr();
+
+        function dYr() {
+            const m = new Date().getMonth();
+            return m >= 3 ? new Date().getFullYear() : new Date().getFullYear() - 1
+        }
+
+        function pYr(mi) {
+            return mi >= 3 ? gYr() : gYr() + 1
+        }
+
+        /* UTIL */
+        function uid() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2, 5)
+        }
+
+        function td() {
+            return new Date().toISOString().split('T')[0]
+        }
+
+        function rp(n) {
+            return 'Rp ' + Math.round(Number(n) || 0).toLocaleString('id-ID')
+        }
+
+        function mn(id) {
+            const m = gM().find(x => x.id === id);
+            return m ? m.name : '-'
+        }
+
+        function fd(d) {
+            if (!d) return '-';
+            const p = d.split('-');
+            return p[2] + '/' + p[1] + '/' + p[0]
+        }
+
+        /* STRUK HELPERS */
+        function tl() {
+            return '='.repeat(TW)
+        }
+
+        function tdl() {
+            return '-'.repeat(TW)
+        }
+
+        function tc(t) {
+            const p = Math.max(0, Math.floor((TW - t.length) / 2));
+            return ' '.repeat(p) + t
+        }
+
+        function tr(c1, c2, c3) {
+            const w1 = 22,
+                w2 = 6,
+                w3 = TW - w1 - w2;
+            return (c1 + ' '.repeat(w1)).substring(0, w1) + ' '.repeat(Math.max(0, w2 - c2.length)) + c2 + ' '.repeat(Math.max(0, w3 - c3.length)) + c3
+        }
+
+        function tr2(c1, c2) {
+            const w1 = TW - 16;
+            return (c1 + ' '.repeat(w1)).substring(0, w1) + ' '.repeat(Math.max(0, 16 - c2.length)) + c2
+        }
+
+        /* TIPE UANG MASUK */
+        const TIPE_MASUK = [{
+                val: 'iuran',
+                label: 'Iuran Andilan',
+                bg: 'bg-o'
+            },
+            {
+                val: 'denda',
+                label: 'Denda Keterlambatan',
+                bg: 'bg-w'
+            },
+            {
+                val: 'bunga',
+                label: 'Bunga Pinjaman',
+                bg: 'bg-i'
+            },
+            {
+                val: 'lain',
+                label: 'Lain-lain',
+                bg: 'bg-w'
+            }
+        ];
+
+        function tipeLabel(v) {
+            return TIPE_MASUK.find(t => t.val === v)?.label || v
+        }
+
+        function tipeBg(v) {
+            return TIPE_MASUK.find(t => t.val === v)?.bg || 'bg-w'
+        }
+
+        /* TOAST */
+        function toast(m, t = 'o') {
+            const c = document.getElementById('tC'),
+                ic = {
+                    o: 'fa-check-circle',
+                    n: 'fa-exclamation-circle',
+                    i: 'fa-info-circle'
+                },
+                el = document.createElement('div');
+            el.className = 'tt tt-' + t;
+            el.innerHTML = `<i class="fas ${ic[t]||ic.i}"></i> ${m}`;
+            c.appendChild(el);
+            setTimeout(() => el.remove(), 3100)
+        }
+
+        /* MODAL */
+        function opM(t, h) {
+            document.getElementById('moT').textContent = t;
+            document.getElementById('moB').innerHTML = h;
+            document.getElementById('moO').classList.add('show')
+        }
+
+        function clM() {
+            document.getElementById('moO').classList.remove('show')
+        }
+
+        /* KONFIRMASI */
+        let cCb = null;
+
+        function opC(m, cb) {
+            document.getElementById('coM').textContent = m;
+            document.getElementById('coO').classList.add('show');
+            cCb = cb;
+            document.getElementById('coY').onclick = () => {
+                clC();
+                if (cCb) cCb()
+            }
+        }
+
+        function clC() {
+            document.getElementById('coO').classList.remove('show');
+            cCb = null
+        }
+
+        /* NAVIGASI */
+        const PT = {
+            dashboard: 'Dashboard',
+            anggota: 'Data Anggota',
+            masuk: 'Uang Masuk',
+            keluar: 'Uang Keluar',
+            pinjaman: 'Data Peminjam',
+            bulanan: 'Laporan Bulanan',
+            shu: 'Sisa Hasil Usaha (SHU)'
+        };
+
+        function go(p) {
+            document.querySelectorAll('.pg').forEach(x => x.classList.remove('active'));
+            document.getElementById('pg-' + p).classList.add('active');
+            document.querySelectorAll('.sb-nav a').forEach(a => a.classList.toggle('active', a.dataset.p === p));
+            document.getElementById('pT').textContent = PT[p] || p;
+            render(p);
+            document.getElementById('sb').classList.remove('open');
+            document.getElementById('sbO').classList.remove('show')
+        }
+
+        function togSB() {
+            document.getElementById('sb').classList.toggle('open');
+            document.getElementById('sbO').classList.toggle('show')
+        }
+
+        function render(p) {
+            ({
+                dashboard: rD,
+                anggota: rA,
+                masuk: rI,
+                keluar: rE,
+                pinjaman: rL,
+                bulanan: rB,
+                shu: rS
+            })[p]?.()
+        }
+
+        /* PENGATURAN */
+        function openSet() {
+            const y = gYr();
+            opM('Pengaturan', `
+        <div class="fg"><label>Nama Andilan</label><input type="text" class="fc" id="sN" value="${gNm()}"></div>
+        <div class="fg"><label>Tahun Periode (mulai April)</label><input type="number" class="fc" id="sY" value="${y}" min="2020"></div>
+        <p style="font-size:.76rem;color:var(--mt);margin-bottom:14px">Periode: April <span id="sY1">${y}</span> s/d Maret <span id="sY2">${y+1}</span></p>
+        <div style="display:flex;gap:8px;justify-content:flex-end"><button class="bt bt-g" onclick="clM()">Batal</button><button class="bt bt-p" onclick="svSet()">Simpan</button></div>
+    `);
+            document.getElementById('sY').addEventListener('input', function() {
+                document.getElementById('sY1').textContent = this.value;
+                document.getElementById('sY2').textContent = parseInt(this.value) + 1
+            });
+        }
+
+        function svSet() {
+            G.ss('nm', document.getElementById('sN').value.trim() || 'Andilan Gula');
+            G.ss('yr', document.getElementById('sY').value);
+            document.getElementById('sbNm').textContent = gNm();
+            document.getElementById('sbPr').textContent = 'Apr ' + gYr() + ' - Mar ' + (gYr() + 1);
+            clM();
+            toast('Disimpan', 'i');
+            render(document.querySelector('.pg.active')?.id.replace('pg-', ''))
+        }
+
+        /* HITUNG SHU */
+        function calcSHU() {
+            const ii = gI(),
+                ee = gE(),
+                ll = gL();
+            const tIuran = ii.filter(i => i.type === 'iuran').reduce((s, i) => s + i.amount, 0);
+            const tDenda = ii.filter(i => i.type === 'denda').reduce((s, i) => s + i.amount, 0);
+            // Bunga dari angsuran pinjaman
+            let tBunga = 0;
+            ll.forEach(l => {
+                const paid = l.repayments.reduce((s, r) => s + r.amount, 0);
+                const ratio = l.totalDue > 0 ? l.interest / l.totalDue : 0;
+                tBunga += Math.min(paid * ratio, l.interest)
+            });
+            // Juga hitung bunga yang dicatat manual sebagai uang masuk tipe 'bunga'
+            const tBungaManual = ii.filter(i => i.type === 'bunga').reduce((s, i) => s + i.amount, 0);
+            const tKeluar = ee.reduce((s, e) => s + e.amount, 0);
+            const shu = tIuran + tDenda + tBunga + tBungaManual - tKeluar;
+            return {
+                tIuran,
+                tDenda,
+                tBunga: tBunga + tBungaManual,
+                tKeluar,
+                shu
+            };
+        }
+
+        /* DASHBOARD */
+        function rD() {
+            const mm = gM(),
+                aktif = mm.filter(m => m.status === 'aktif');
+            const {
+                tIuran,
+                tDenda,
+                tBunga,
+                tKeluar,
+                shu
+            } = calcSHU();
+            const totalLot = aktif.reduce((s, m) => s + (m.jumlahLot || 1), 0);
+            const tPinjAktif = gL().filter(l => l.status === 'aktif').reduce((s, l) => {
+                const paid = l.repayments.reduce((a, r) => a + r.amount, 0);
+                return s + (l.totalDue - paid)
+            }, 0);
+            document.getElementById('sC').innerHTML = [{
+                    i: 'fa-users',
+                    bg: '#F5E6D8',
+                    c: '#C2703E',
+                    v: aktif.length,
+                    l: 'Anggota Aktif'
+                },
+                {
+                    i: 'fa-cubes',
+                    bg: '#E0F2F1',
+                    c: '#00897B',
+                    v: totalLot + ' lot',
+                    l: 'Total Lot Aktif'
+                },
+                {
+                    i: 'fa-hand-holding-heart',
+                    bg: '#E8F5E9',
+                    c: '#4A7C59',
+                    v: rp(tIuran),
+                    l: 'Total Iuran'
+                },
+                {
+                    i: 'fa-exclamation-triangle',
+                    bg: '#FFF8E1',
+                    c: '#D4960A',
+                    v: rp(tDenda),
+                    l: 'Total Denda'
+                },
+                {
+                    i: 'fa-percentage',
+                    bg: '#E3F2FD',
+                    c: '#1565C0',
+                    v: rp(tBunga),
+                    l: 'Bunga Pinjaman'
+                },
+                {
+                    i: 'fa-arrow-up',
+                    bg: '#FFEBEE',
+                    c: '#B44040',
+                    v: rp(tKeluar),
+                    l: 'Total Pengeluaran'
+                },
+                {
+                    i: 'fa-chart-pie',
+                    bg: '#FCE4EC',
+                    c: '#C2185B',
+                    v: rp(shu),
+                    l: 'SHU'
+                }
+            ].map(s => `<div class="sc"><div class="ib" style="background:${s.bg};color:${s.c}"><i class="fas ${s.i}"></i></div><div class="vl">${s.v}</div><div class="lb">${s.l}</div></div>`).join('');
+
+            const allTx = [...gI().map(i => ({
+                d: i.date,
+                desc: i.description,
+                amt: i.amount,
+                t: 'm',
+                type: i.type
+            })), ...gE().map(e => ({
+                d: e.date,
+                desc: e.description,
+                amt: e.amount,
+                t: 'k'
+            }))].sort((a, b) => b.d.localeCompare(a.d)).slice(0, 7);
+            document.getElementById('rTx').innerHTML = allTx.length ? `<table style="width:100%;border-collapse:collapse">${allTx.map(t=>`<tr style="border-top:1px solid var(--bd)"><td style="padding:8px 13px;font-size:.78rem;color:var(--mt);width:76px">${fd(t.d)}</td><td style="padding:8px 13px;font-size:.82rem">${t.desc}</td><td style="padding:8px 13px;font-size:.82rem;font-weight:600;text-align:right;color:${t.t==='m'?'var(--ok)':'var(--no)'}">${t.t==='m'?'+':'-'}${rp(t.amt)}</td></tr>`).join('')}</table>` : '<div class="es"><i class="fas fa-receipt"></i><p>Belum ada transaksi</p></div>';
+
+            const aLo = gL().filter(l => l.status === 'aktif');
+            document.getElementById('aL').innerHTML = aLo.length ? `<table style="width:100%;border-collapse:collapse">${aLo.map(l=>{const paid=l.repayments.reduce((s,r)=>s+r.amount,0),sisa=l.totalDue-paid,pct=Math.round(paid/l.totalDue*100);return`<tr style="border-top:1px solid var(--bd)"><td style="padding:8px 13px;font-size:.82rem;font-weight:600">${mn(l.memberId)}</td><td style="padding:8px 13px;font-size:.78rem">${rp(sisa)}</td><td style="padding:8px 13px;width:100px"><div style="background:var(--acl);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--ac);height:100%;width:${pct}%;border-radius:4px"></div></div><span style="font-size:.68rem;color:var(--mt)">${pct}%</span></td></tr>`}).join('')}</table>` : '<div class="es"><i class="fas fa-hand-holding-usd"></i><p>Tidak ada pinjaman aktif</p></div>';
+        }
+
+        /* ANGGOTA */
+        function rA() {
+            const mm = gM();
+            document.getElementById('aCt').textContent = mm.length + ' anggota terdaftar';
+            const tb = document.getElementById('aTb');
+            if (!mm.length) {
+                tb.innerHTML = '<tr><td colspan="7" class="es"><i class="fas fa-users"></i><p>Belum ada anggota</p></td></tr>';
+                return
+            }
+            tb.innerHTML = mm.map((m, i) => `<tr><td>${i+1}</td><td style="font-weight:600">${m.name}</td><td style="text-align:center;font-weight:700;color:var(--ac)">${m.jumlahLot||1}</td><td style="font-weight:600">${rp((m.jumlahLot||1)*LV)}</td><td style="color:var(--mt)">${fd(m.joinDate)}</td><td><span class="bg ${m.status==='aktif'?'bg-o':'bg-n'}">${m.status==='aktif'?'Aktif':'Nonaktif'}</span></td><td style="white-space:nowrap"><button class="bt bt-s bt-g" onclick="fAngg('${m.id}')"><i class="fas fa-edit"></i></button><button class="bt bt-s bt-g" onclick="tgSt('${m.id}')"><i class="fas fa-exchange-alt"></i></button><button class="bt bt-s bt-d" onclick="dAngg('${m.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+        }
+
+        function fAngg(eid) {
+            const m = eid ? gM().find(x => x.id === eid) : null;
+            const lotVal = m ? (m.jumlahLot || 1) * LV : LV;
+            opM(m ? 'Edit Anggota' : 'Tambah Anggota', `
+        <div class="fg"><label>Nama Anggota</label><input type="text" class="fc" id="fAN" placeholder="Nama lengkap" value="${m?m.name:''}"></div>
+        <div class="fg"><label>Jumlah Lot</label><input type="number" class="fc" id="fAL" min="1" value="${m?m.jumlahLot:1}" oninput="document.getElementById('fALn').textContent='= '+rp(this.value*${LV})"><p style="font-size:.78rem;color:var(--ac);margin-top:3px;font-weight:600" id="fALn">= ${rp(LV)}</p></div>
+        <div class="fg"><label>Tanggal Gabung</label><input type="date" class="fc" id="fAT" value="${m?m.joinDate:td()}"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px"><button class="bt bt-g" onclick="clM()">Batal</button><button class="bt bt-p" onclick="sAngg('${eid||''}')">${m?'Simpan':'Tambah'}</button></div>
+    `);
+            setTimeout(() => document.getElementById('fAN').focus(), 60);
+        }
+
+        function sAngg(eid) {
+            const name = document.getElementById('fAN').value.trim(),
+                lot = Math.max(1, parseInt(document.getElementById('fAL').value) || 1),
+                jd = document.getElementById('fAT').value;
+            if (!name) {
+                toast('Nama wajib diisi', 'n');
+                return
+            }
+            let mm = gM();
+            if (eid) {
+                mm = mm.map(m => m.id === eid ? {
+                    ...m,
+                    name,
+                    jumlahLot: lot,
+                    joinDate: jd
+                } : m);
+                toast('Diperbarui')
+            } else {
+                mm.push({
+                    id: uid(),
+                    name,
+                    joinDate: jd,
+                    status: 'aktif',
+                    jumlahLot: lot
+                });
+                toast('Ditambahkan')
+            }
+            G.s('m', mm);
+            clM();
+            rA();
+        }
+
+        function tgSt(id) {
+            let mm = gM();
+            mm = mm.map(m => m.id === id ? {
+                ...m,
+                status: m.status === 'aktif' ? 'nonaktif' : 'aktif'
+            } : m);
+            G.s('m', mm);
+            toast('Status diubah');
+            rA()
+        }
+
+        function dAngg(id) {
+            const m = gM().find(x => x.id === id);
+            opC(`Hapus "${m.name}"?`, () => {
+                G.s('m', gM().filter(x => x.id !== id));
+                toast('Dihapus');
+                rA()
+            })
+        }
+
+        /* UANG MASUK */
+        function rI() {
+            const d = gI();
+            const tI = d.filter(i => i.type === 'iuran').reduce((s, i) => s + i.amount, 0);
+            const tD = d.filter(i => i.type === 'denda').reduce((s, i) => s + i.amount, 0);
+            const tB = d.filter(i => i.type === 'bunga').reduce((s, i) => s + i.amount, 0);
+            const tL = d.filter(i => i.type === 'lain').reduce((s, i) => s + i.amount, 0);
+            document.getElementById('iCt').textContent = d.length + ' transaksi';
+            document.getElementById('iSum').innerHTML = [{
+                    l: 'Total Iuran',
+                    v: tI,
+                    c: 'var(--ok)',
+                    bg: '#E8F5E9'
+                },
+                {
+                    l: 'Total Denda',
+                    v: tD,
+                    c: 'var(--wn)',
+                    bg: '#FFF8E1'
+                },
+                {
+                    l: 'Total Bunga',
+                    v: tB,
+                    c: '#1565C0',
+                    bg: '#E3F2FD'
+                },
+                {
+                    l: 'Lain-lain',
+                    v: tL,
+                    c: 'var(--mt)',
+                    bg: '#F5F5F5'
+                }
+            ].map(s => `<div class="sc"><div style="font-size:.76rem;color:var(--mt)">${s.l}</div><div style="font-size:1.1rem;font-weight:700;color:${s.c};margin-top:4px">${rp(s.v)}</div></div>`).join('');
+            const tb = document.getElementById('iTb');
+            if (!d.length) {
+                tb.innerHTML = '<tr><td colspan="7" class="es"><i class="fas fa-arrow-circle-down"></i><p>Belum ada data</p></td></tr>';
+                return
+            }
+            tb.innerHTML = [...d].sort((a, b) => b.date.localeCompare(a.date)).map((it, i) => `<tr><td>${i+1}</td><td style="color:var(--mt);white-space:nowrap">${fd(it.date)}</td><td><span class="bg ${tipeBg(it.type)}">${tipeLabel(it.type)}</span></td><td>${it.description}</td><td style="color:var(--mt)">${it.memberId?mn(it.memberId):'-'}</td><td style="font-weight:700;color:var(--ok)">${rp(it.amount)}</td><td style="white-space:nowrap"><button class="bt bt-s bt-g" onclick="fMasuk('${it.id}')"><i class="fas fa-edit"></i></button><button class="bt bt-s bt-d" onclick="dMasuk('${it.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+        }
+
+        function fMasuk(eid) {
+            const it = eid ? gI().find(x => x.id === eid) : null;
+            const opts = gM().filter(m => m.status === 'aktif').map(m => `<option value="${m.id}" ${it&&it.memberId===m.id?'selected':''}>${m.name} (${m.jumlahLot||1} lot)</option>`).join('');
+            const tipeOpts = TIPE_MASUK.map(t => `<option value="${t.val}" ${it&&it.type===t.val?'selected':''}>${t.label}</option>`).join('');
+            opM(it ? 'Edit Uang Masuk' : 'Tambah Uang Masuk', `
+        <div class="fg"><label>Tipe Pemasukan</label><select class="fc" id="fIT">${tipeOpts}</select></div>
+        <div class="fg"><label>Tanggal</label><input type="date" class="fc" id="fIDt" value="${it?it.date:td()}"></div>
+        <div class="fg"><label>Keterangan</label><input type="text" class="fc" id="fIDk" placeholder="Mis: Iuran bulan April" value="${it?it.description:''}"></div>
+        <div class="fg"><label>Anggota (opsional)</label><select class="fc" id="fIAm"><option value="">-- Tidak terkait --</option>${opts}</select></div>
+        <div class="fg"><label>Jumlah (Rp)</label><input type="number" class="fc" id="fIJ" min="0" value="${it?it.amount:''}"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px"><button class="bt bt-g" onclick="clM()">Batal</button><button class="bt bt-ok" onclick="sMasuk('${eid||''}')">${it?'Simpan':'Tambah'}</button></div>
+    `);
+            setTimeout(() => document.getElementById('fIDk').focus(), 60);
+        }
+
+        function sMasuk(eid) {
+            const type = document.getElementById('fIT').value,
+                date = document.getElementById('fIDt').value,
+                desc = document.getElementById('fIDk').value.trim(),
+                mid = document.getElementById('fIAm').value || null,
+                amt = parseFloat(document.getElementById('fIJ').value);
+            if (!date || !desc) {
+                toast('Tanggal dan keterangan wajib', 'n');
+                return
+            }
+            if (!amt || amt <= 0) {
+                toast('Jumlah harus > 0', 'n');
+                return
+            }
+            let d = gI();
+            if (eid) {
+                d = d.map(i => i.id === eid ? {
+                    ...i,
+                    type,
+                    date,
+                    description: desc,
+                    memberId: mid,
+                    amount: amt
+                } : d);
+                toast('Diperbarui')
+            } else {
+                d.push({
+                    id: uid(),
+                    type,
+                    date,
+                    description: desc,
+                    memberId: mid,
+                    amount: amt
+                });
+                toast('Ditambahkan')
+            }
+            G.s('i', d);
+            clM();
+            rI();
+        }
+
+        function dMasuk(id) {
+            opC('Hapus data ini?', () => {
+                G.s('i', gI().filter(x => x.id !== id));
+                toast('Dihapus');
+                rI()
+            })
+        }
+
+        /* UANG KELUAR */
+        function rE() {
+            const d = gE(),
+                t = d.reduce((s, e) => s + e.amount, 0);
+            document.getElementById('eCt').innerHTML = `${d.length} transaksi &mdash; Total: <strong style="color:var(--no)">${rp(t)}</strong>`;
+            const tb = document.getElementById('eTb');
+            if (!d.length) {
+                tb.innerHTML = '<tr><td colspan="5" class="es"><i class="fas fa-arrow-circle-up"></i><p>Belum ada data</p></td></tr>';
+                return
+            }
+            tb.innerHTML = [...d].sort((a, b) => b.date.localeCompare(a.date)).map((it, i) => `<tr><td>${i+1}</td><td style="color:var(--mt);white-space:nowrap">${fd(it.date)}</td><td>${it.description}</td><td style="font-weight:700;color:var(--no)">${rp(it.amount)}</td><td style="white-space:nowrap"><button class="bt bt-s bt-g" onclick="fKeluar('${it.id}')"><i class="fas fa-edit"></i></button><button class="bt bt-s bt-d" onclick="dKeluar('${it.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('');
+        }
+
+        function fKeluar(eid) {
+            const it = eid ? gE().find(x => x.id === eid) : null;
+            opM(it ? 'Edit Uang Keluar' : 'Tambah Uang Keluar', `
+        <div class="fg"><label>Tanggal</label><input type="date" class="fc" id="fEDt" value="${it?it.date:td()}"></div>
+        <div class="fg"><label>Keterangan</label><input type="text" class="fc" id="fEDk" placeholder="Mis: Beli kantong plastik" value="${it?it.description:''}"></div>
+        <div class="fg"><label>Jumlah (Rp)</label><input type="number" class="fc" id="fEJ" min="0" value="${it?it.amount:''}"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px"><button class="bt bt-g" onclick="clM()">Batal</button><button class="bt bt-p" onclick="sKeluar('${eid||''}')">${it?'Simpan':'Tambah'}</button></div>
+    `);
+            setTimeout(() => document.getElementById('fEDk').focus(), 60);
+        }
+
+        function sKeluar(eid) {
+            const date = document.getElementById('fEDt').value,
+                desc = document.getElementById('fEDk').value.trim(),
+                amt = parseFloat(document.getElementById('fEJ').value);
+            if (!date || !desc) {
+                toast('Tanggal dan keterangan wajib', 'n');
+                return
+            }
+            if (!amt || amt <= 0) {
+                toast('Jumlah harus > 0', 'n');
+                return
+            }
+            let d = gE();
+            if (eid) {
+                d = d.map(e => e.id === eid ? {
+                    ...e,
+                    date,
+                    description: desc,
+                    amount: amt
+                } : e);
+                toast('Diperbarui')
+            } else {
+                d.push({
+                    id: uid(),
+                    date,
+                    description: desc,
+                    amount: amt
+                });
+                toast('Ditambahkan')
+            }
+            G.s('e', d);
+            clM();
+            rE();
+        }
+
+        function dKeluar(id) {
+            opC('Hapus data ini?', () => {
+                G.s('e', gE().filter(x => x.id !== id));
+                toast('Dihapus');
+                rE()
+            })
+        }
+
+        /* PINJAMAN */
+        function rL() {
+            const ll = gL(),
+                ak = ll.filter(l => l.status === 'aktif').length;
+            document.getElementById('lCt').textContent = `${ll.length} pinjaman (${ak} aktif)`;
+            const tb = document.getElementById('lTb');
+            if (!ll.length) {
+                tb.innerHTML = '<tr><td colspan="9" class="es"><i class="fas fa-hand-holding-usd"></i><p>Belum ada pinjaman</p></td></tr>';
+                return
+            }
+            tb.innerHTML = ll.map((l, i) => {
+                const paid = l.repayments.reduce((s, r) => s + r.amount, 0),
+                    sisa = Math.max(0, l.totalDue - paid);
+                return `<tr><td>${i+1}</td><td style="font-weight:600">${mn(l.memberId)}</td><td>${rp(l.principal)}</td><td style="color:var(--wn);font-weight:600">${rp(l.interest)}</td><td style="font-weight:600">${rp(l.totalDue)}</td><td style="color:var(--ok)">${rp(paid)}</td><td style="color:${sisa?'var(--no)':'var(--mt)'};font-weight:600">${rp(sisa)}</td><td><span class="bg ${l.status==='lunas'?'bg-o':'bg-w'}">${l.status==='lunas'?'Lunas':'Aktif'}</span></td><td style="white-space:nowrap">${l.status==='aktif'?`<button class="bt bt-s bt-ok" onclick="fAngs('${l.id}')" title="Bayar"><i class="fas fa-money-bill-wave"></i></button>`:''}<button class="bt bt-s bt-g" onclick="dPinj('${l.id}')" title="Detail"><i class="fas fa-eye"></i></button><button class="bt bt-s bt-d" onclick="delPinj('${l.id}')"><i class="fas fa-trash"></i></button></td></tr>`
+            }).join('');
+        }
+
+        function fPinj() {
+            const ms = gM().filter(m => m.status === 'aktif');
+            if (!ms.length) {
+                toast('Tambahkan anggota aktif dulu', 'n');
+                return
+            }
+            opM('Tambah Pinjaman Baru', `
+        <div class="fg"><label>Anggota Peminjam</label><select class="fc" id="fPA">${ms.map(m=>`<option value="${m.id}">${m.name}</option>`).join('')}</select></div>
+        <div class="fg"><label>Pokok Pinjaman (Rp)</label><input type="number" class="fc" id="fPP" min="0" oninput="cPinj()"></div>
+        <div style="background:var(--acl);border-radius:9px;padding:10px 12px;margin-bottom:12px">
+            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:3px"><span style="color:var(--mt)">Bunga (5%)</span><span id="fPB" style="font-weight:600;color:var(--ac)">Rp 0</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:.88rem"><span style="font-weight:600">Total Harus Dibayar</span><span id="fPT" style="font-weight:700">Rp 0</span></div>
+        </div>
+        <div class="fg"><label>Tanggal Pinjam</label><input type="date" class="fc" id="fPDt" value="${td()}"></div>
+        <div class="fg"><label>Keterangan (opsional)</label><input type="text" class="fc" id="fPK" placeholder="Keperluan pinjaman"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px"><button class="bt bt-g" onclick="clM()">Batal</button><button class="bt bt-p" onclick="sPinj()">Ajukan</button></div>
+    `);
+            setTimeout(() => document.getElementById('fPP').focus(), 60);
+        }
+
+        function cPinj() {
+            const p = parseFloat(document.getElementById('fPP').value) || 0,
+                b = p * 0.05;
+            document.getElementById('fPB').textContent = rp(b);
+            document.getElementById('fPT').textContent = rp(p + b)
+        }
+
+        function sPinj() {
+            const mid = document.getElementById('fPA').value,
+                p = parseFloat(document.getElementById('fPP').value),
+                d = document.getElementById('fPDt').value,
+                desc = document.getElementById('fPK').value.trim();
+            if (!p || p <= 0) {
+                toast('Pokok harus > 0', 'n');
+                return
+            }
+            if (!d) {
+                toast('Tanggal wajib', 'n');
+                return
+            }
+            G.s('l', [...gL(), {
+                id: uid(),
+                memberId: mid,
+                principal: p,
+                interest: p * 0.05,
+                totalDue: p + p * 0.05,
+                date: d,
+                description: desc,
+                repayments: [],
+                status: 'aktif'
+            }]);
+            clM();
+            toast('Pinjaman ditambahkan');
+            rL();
+        }
+
+        function fAngs(lid) {
+            const l = gL().find(x => x.id === lid),
+                paid = l.repayments.reduce((s, r) => s + r.amount, 0),
+                sisa = l.totalDue - paid;
+            opM('Bayar Angsuran', `
+        <div style="background:var(--acl);border-radius:9px;padding:12px;margin-bottom:12px">
+            <p style="font-weight:600;margin-bottom:5px">${mn(l.memberId)}</p>
+            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:2px"><span style="color:var(--mt)">Total</span><span>${rp(l.totalDue)}</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:2px"><span style="color:var(--mt)">Dibayar</span><span style="color:var(--ok)">${rp(paid)}</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:.88rem;font-weight:700"><span>Sisa</span><span style="color:var(--no)">${rp(sisa)}</span></div>
+        </div>
+        <div class="fg"><label>Jumlah Bayar (Rp)</label><input type="number" class="fc" id="fAJ" min="1"></div>
+        <div class="fg"><label>Tanggal Bayar</label><input type="date" class="fc" id="fADt" value="${td()}"></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px"><button class="bt bt-g" onclick="clM()">Batal</button><button class="bt bt-ok" onclick="sAngs('${lid}')">Bayar</button></div>
+    `);
+            setTimeout(() => document.getElementById('fAJ').focus(), 60);
+        }
+
+        function sAngs(lid) {
+            const amt = parseFloat(document.getElementById('fAJ').value),
+                d = document.getElementById('fADt').value;
+            if (!amt || amt <= 0) {
+                toast('Jumlah harus > 0', 'n');
+                return
+            }
+            if (!d) {
+                toast('Tanggal wajib', 'n');
+                return
+            }
+            let ll = gL(),
+                ok = true;
+            ll = ll.map(l => {
+                if (l.id !== lid) return l;
+                const paid = l.repayments.reduce((s, r) => s + r.amount, 0),
+                    sisa = l.totalDue - paid;
+                if (amt > sisa + .01) {
+                    ok = false;
+                    return l
+                }
+                const nr = [...l.repayments, {
+                        amount: amt,
+                        date: d
+                    }],
+                    tp = nr.reduce((s, r) => s + r.amount, 0);
+                return {
+                    ...l,
+                    repayments: nr,
+                    status: tp >= l.totalDue - .01 ? 'lunas' : 'aktif'
+                }
+            });
+            if (!ok) {
+                toast('Melebihi sisa', 'n');
+                return
+            }
+            G.s('l', ll);
+            clM();
+            toast('Angsuran dicatat');
+            rL();
+        }
+
+        function dPinj(lid) {
+            const l = gL().find(x => x.id === lid),
+                paid = l.repayments.reduce((s, r) => s + r.amount, 0);
+            let rows = l.repayments.length ? l.repayments.map((r, i) => `<tr><td>${i+1}</td><td style="color:var(--mt)">${fd(r.date)}</td><td style="font-weight:600;color:var(--ok)">${rp(r.amount)}</td></tr>`).join('') : '<tr><td colspan="3" style="text-align:center;padding:14px;color:var(--mt)">Belum ada angsuran</td></tr>';
+            opM('Detail Pinjaman', `
+        <div style="background:var(--acl);border-radius:9px;padding:12px;margin-bottom:12px">
+            <p style="font-weight:700;font-size:.92rem;margin-bottom:6px">${mn(l.memberId)}</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px;font-size:.8rem">
+                <div><span style="color:var(--mt)">Pokok:</span><br><strong>${rp(l.principal)}</strong></div>
+                <div><span style="color:var(--mt)">Bunga 5%:</span><br><strong style="color:var(--ac)">${rp(l.interest)}</strong></div>
+                <div><span style="color:var(--mt)">Total:</span><br><strong>${rp(l.totalDue)}</strong></div>
+                <div><span style="color:var(--mt)">Dibayar:</span><br><strong style="color:var(--ok)">${rp(paid)}</strong></div>
+            </div>
+            <div style="margin-top:7px;padding-top:7px;border-top:1px solid rgba(194,112,62,.2);display:flex;justify-content:space-between"><span style="font-weight:600">Sisa:</span><span style="font-weight:700;color:var(--no)">${rp(Math.max(0,l.totalDue-paid))}</span></div>
+        </div>
+        <p style="font-weight:600;font-size:.85rem;margin-bottom:6px">Riwayat Angsuran</p>
+        <div style="max-height:160px;overflow-y:auto;border:1px solid var(--bd);border-radius:8px"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:var(--acl)"><th style="padding:6px 9px;font-size:.7rem">No</th><th style="padding:6px 9px;font-size:.7rem">Tgl</th><th style="padding:6px 9px;font-size:.7rem;text-align:right">Jumlah</th></tr></thead><tbody>${rows}</tbody></table></div>
+        <div style="text-align:right;margin-top:12px"><button class="bt bt-g" onclick="clM()">Tutup</button></div>
+    `);
+        }
+
+        function delPinj(id) {
+            opC('Hapus pinjaman ini?', () => {
+                G.s('l', gL().filter(x => x.id !== id));
+                toast('Dihapus');
+                rL()
+            })
+        }
+
+        /* LAPORAN BULANAN */
+        function getMD(mi) {
+            const yr = pYr(mi),
+                mm = String(mi + 1).padStart(2, '0'),
+                pf = yr + '-' + mm;
+            const masuk = gI().filter(i => i.date.startsWith(pf));
+            const keluar = gE().filter(e => e.date.startsWith(pf));
+            const tIuran = masuk.filter(i => i.type === 'iuran').reduce((s, i) => s + i.amount, 0);
+            const tDenda = masuk.filter(i => i.type === 'denda').reduce((s, i) => s + i.amount, 0);
+            const tBunga = masuk.filter(i => i.type === 'bunga').reduce((s, i) => s + i.amount, 0);
+            const tLain = masuk.filter(i => i.type === 'lain').reduce((s, i) => s + i.amount, 0);
+            const tMasuk = masuk.reduce((s, i) => s + i.amount, 0);
+            const tKeluar = keluar.reduce((s, e) => s + e.amount, 0);
+            // Bunga dari angsuran bulan ini
+            const tBungaAngs = gL().flatMap(l => l.repayments.filter(r => r.date.startsWith(pf)).reduce((s, r) => s + r.amount, 0));
+            const aktif = getM().filter(m => m.status === 'aktif');
+            const iuranList = aktif.map(m => ({
+                name: m.name,
+                lot: m.jumlahLot || 1,
+                nominal: (m.jumlahLot || 1) * LV
+            }));
+            const tIuranLot = iuranList.reduce((s, i) => s + i.nominal, 0);
+            return {
+                mi,
+                yr,
+                masuk,
+                keluar,
+                tIuran,
+                tDenda,
+                tBunga,
+                tLain,
+                tMasuk,
+                tKeluar,
+                iuranList,
+                tIuranLot
+            };
+        }
+
+        function rB() {
+            const ay = gYr();
+            document.getElementById('bInf').textContent = `Periode: April ${ay} s/d Maret ${ay+1}`;
+            const grid = document.getElementById('mG');
+            grid.innerHTML = BO.map(mi => {
+                const md = getMD(mi);
+                const has = md.masuk.length || md.keluar.length;
+                return `<div class="mnc ${has?'has':'emp'}" onclick="openMD(${mi})">
+            <div class="mn-t">${MN[mi]} ${md.yr}</div>
+            <div class="mn-s" style="display:flex;flex-direction:column;gap:2px">
+                <div style="display:flex;justify-content:space-between"><span>Iuran Lot</span><span style="font-weight:600">${rp(md.tIuranLot)}</span></div>
+                <div style="display:flex;justify-content:space-between"><span>Denda</span><span style="font-weight:600;color:var(--wn)">${rp(md.tDenda)}</span></div>
+                <div style="display:flex;justify-content:space-between"><span>Masuk</span><span style="font-weight:600;color:var(--ok)">${rp(md.tMasuk)}</span></div>
+                <div style="display:flex;justify-content:space-between"><span>Keluar</span><span style="font-weight:600;color:var(--no)">${rp(md.tKeluar)}</span></div>
+            </div>
+            <div style="margin-top:8px"><button class="bt bt-s bt-g" style="width:100%;justify-content:center" onclick="event.stopPropagation();printMo(${mi})"><i class="fas fa-print"></i> Cetak Struk</button></div>
+        </div>`;
+            }).join('');
+        }
+
+        function openMD(mi) {
+            const md = getMD(mi);
+            let iR = md.iuranList.map((il, i) => `<tr><td>${i+1}</td><td style="font-weight:600">${il.name}</td><td style="text-align:center;color:var(--ac);font-weight:600">${il.lot}</td><td style="font-weight:600">${rp(il.nominal)}</td></tr>`).join('');
+            let mR = md.masuk.length ? md.masuk.map((m, i) => `<tr><td>${i+1}</td><td><span class="bg ${tipeBg(m.type)}" style="font-size:.66rem">${tipeLabel(m.type)}</span></td><td>${m.description}</td><td style="font-weight:600;color:var(--ok)">${rp(m.amount)}</td></tr>`).join('') : '<tr><td colspan="4" style="text-align:center;padding:10px;color:var(--mt)">Tidak ada</td></tr>';
+            let kR = md.keluar.length ? md.keluar.map((e, i) => `<tr><td>${i+1}</td><td>${e.description}</td><td style="font-weight:600;color:var(--no)">${rp(e.amount)}</td></tr>`).join('') : '<tr><td colspan="3" style="text-align:center;padding:10px;color:var(--mt)">Tidak ada</td></tr>';
+            opM(`Detail ${MN[mi]} ${md.yr}`, `
+        <p style="font-weight:600;font-size:.86rem;margin-bottom:6px">Iuran Anggota (Lot x Rp 20.000)</p>
+        <div style="border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-bottom:12px"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:var(--acl)"><th style="padding:7px 9px;font-size:.7rem">No</th><th style="padding:7px 9px;font-size:.7rem">Nama</th><th style="padding:7px 9px;font-size:.7rem;text-align:center">Lot</th><th style="padding:7px 9px;font-size:.7rem;text-align:right">Nominal</th></tr></thead><tbody>${iR}<tr style="background:var(--acl);font-weight:700"><td colspan="3" style="padding:7px 9px;text-align:right">Total Iuran</td><td style="padding:7px 9px;text-align:right">${rp(md.tIuranLot)}</td></tr></tbody></table></div>
+        <p style="font-weight:600;font-size:.86rem;margin-bottom:6px">Uang Masuk</p>
+        <div style="border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-bottom:12px"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:var(--acl)"><th style="padding:7px 9px;font-size:.7rem">No</th><th style="padding:7px 9px;font-size:.7rem">Tipe</th><th style="padding:7px 9px;font-size:.7rem">Keterangan</th><th style="padding:7px 9px;font-size:.7rem;text-align:right">Jumlah</th></tr></thead><tbody>${mR}<tr style="background:var(--acl);font-weight:700"><td colspan="3" style="padding:7px 9px;text-align:right">Total</td><td style="padding:7px 9px;text-align:right;color:var(--ok)">${rp(md.tMasuk)}</td></tr></tbody></table></div>
+        <p style="font-weight:600;font-size:.86rem;margin-bottom:6px">Uang Keluar</p>
+        <div style="border:1px solid var(--bd);border-radius:8px;overflow:hidden;margin-bottom:12px"><table style="width:100%;border-collapse:collapse"><thead><tr style="background:var(--acl)"><th style="padding:7px 9px;font-size:.7rem">No</th><th style="padding:7px 9px;font-size:.7rem">Keterangan</th><th style="padding:7px 9px;font-size:.7rem;text-align:right">Jumlah</th></tr></thead><tbody>${kR}<tr style="background:var(--acl);font-weight:700"><td style="padding:7px 9px;text-align:right">Total</td><td></td><td style="padding:7px 9px;text-align:right;color:var(--no)">${rp(md.tKeluar)}</td></tr></tbody></table></div>
+        <div style="display:flex;gap:8px;justify-content:flex-end"><button class="bt bt-g" onclick="clM()">Tutup</button><button class="bt bt-p" onclick="clM();printMo(${mi})"><i class="fas fa-print"></i> Cetak</button></div>
+    `);
+        }
+
+        /* CETAK STRUK THERMAL */
+        function genStrukMo(mi) {
+            const md = getMD(mi);
+            let s = '';
+            s += tl() + '\n';
+            s += tc(gNm().toUpperCase()) + '\n';
+            s += tc('LAPORAN: ' + MN[mi].toUpperCase() + ' ' + md.yr) + '\n';
+            s += tl() + '\n\n';
+            // Iuran
+            s += 'IURAN ANGGOTA:\n';
+            s += tdl() + '\n';
+            s += tr('Nama', 'Lot', 'Nominal') + '\n';
+            s += tdl() + '\n';
+            md.iuranList.forEach(il => {
+                s += tr(il.name, String(il.lot), rp(il.nominal)) + '\n'
+            });
+            s += tdl() + '\n';
+            s += tr2('Total Iuran', rp(md.tIuranLot)) + '\n\n';
+            // Denda
+            if (md.tDenda > 0) {
+                const dendas = md.masuk.filter(i => i.type === 'denda');
+                s += 'DENDA KETERLAMBATAN:\n';
+                s += tdl() + '\n';
+                dendas.forEach(d => {
+                    const desc = d.description.length > 20 ? d.description.substring(0, 20) : d.description;
+                    s += tr2(desc, rp(d.amount)) + '\n'
+                });
+                s += tr2('Total Denda', rp(md.tDenda)) + '\n\n';
+            }
+            // Uang masuk lain
+            if (md.tLain > 0) {
+                const lain = md.masuk.filter(i => i.type === 'lain');
+                s += 'PENDAPATAN LAIN:\n';
+                s += tdl() + '\n';
+                lain.forEach(l => {
+                    const desc = l.description.length > 20 ? l.description.substring(0, 20) : l.description;
+                    s += tr2(desc, rp(l.amount)) + '\n'
+                });
+                s += tr2('Total Lain', rp(md.tLain)) + '\n\n';
+            }
+            // Uang keluar
+            if (md.tKeluar > 0) {
+                s += 'PENGELUARAN:\n';
+                s += tdl() + '\n';
+                md.keluar.forEach(e => {
+                    const desc = e.description.length > 20 ? e.description.substring(0, 20) : e.description;
+                    s += tr2(desc, rp(e.amount)) + '\n'
+                });
+                s += tdl() + '\n';
+                s += tr2('Total Keluar', rp(md.tKeluar)) + '\n\n';
+            }
+            s += tl() + '\n';
+            s += tr2('Total Masuk', rp(md.tMasuk)) + '\n';
+            s += tr2('Total Keluar', rp(md.tKeluar)) + '\n';
+            s += tr2('Selisih', rp(md.tMasuk - md.tKeluar)) + '\n';
+            s += tl() + '\n';
+            s += tc('Dicetak: ' + fd(td())) + '\n';
+            s += tl() + '\n';
+            return s;
+        }
+
+        function printMo(mi) {
+            document.getElementById('tpa').innerHTML = '<pre>' + genStrukMo(mi) + '</pre>';
+            setTimeout(() => window.print(), 200)
+        }
+
+        function printAllM() {
+            const ay = gYr();
+            let s = '';
+            s += tl() + '\n';
+            s += tc(gNm().toUpperCase()) + '\n';
+            s += tc('LAPORAN TAHUNAN') + '\n';
+            s += tc('APRIL ' + ay + ' - MARET ' + (ay + 1)) + '\n';
+            s += tl() + '\n\n';
+            // Daftar anggota
+            const aktif = getM().filter(m => m.status === 'aktif');
+            s += 'DAFTAR ANGGOTA:\n';
+            s += tdl() + '\n';
+            s += tr('Nama', 'Lot', 'Nominal') + '\n';
+            s += tdl() + '\n';
+            let tLotAll = 0;
+            aktif.forEach(m => {
+                const lot = m.jumlahLot || 1;
+                tLotAll += lot;
+                s += tr(m.name, String(lot), rp(lot * LV)) + '\n'
+            });
+            s += tdl() + '\n';
+            s += tr2('Jumlah: ' + aktif.length + ' orang', '') + '\n';
+            s += tr2('Total Lot: ' + tLotAll, rp(tLotAll * LV)) + '\n\n';
+
+            let gIuran = 0,
+                gDenda = 0,
+                gBunga = 0,
+                gKeluar = 0;
+            BO.forEach((mi, idx) => {
+                const md = getMD(mi);
+                gIuran += md.tIuran;
+                gDenda += md.tDenda;
+                gBunga += md.tBunga;
+                gKeluar += md.tKeluar;
+                s += '--- ' + MN[mi].toUpperCase() + ' ' + md.yr + ' ---\n';
+                s += tdl() + '\n';
+                md.iuranList.forEach(il => {
+                    s += tr(il.name, String(il.lot), rp(il.nominal)) + '\n'
+                });
+                s += tr2('Total Iuran', rp(md.tIuranLot)) + '\n';
+                if (md.tDenda > 0) s += tr2('Denda', rp(md.tDenda)) + '\n';
+                if (md.tKeluar > 0) s += tr2('Pengeluaran', rp(md.tKeluar)) + '\n';
+                s += tdl() + '\n';
+                if (idx < BO.length - 1) s += '\n';
+            });
+            s += '\n' + tl() + '\n';
+            s += tc('REKAP TAHUNAN') + '\n';
+            s += tl() + '\n';
+            s += tr2('Total Iuran', rp(gIuran)) + '\n';
+            s += tr2('Total Denda', rp(gDenda)) + '\n';
+            s += tr2('Total Bunga Pinj.', rp(gBunga)) + '\n';
+            s += tr2('Total Pengeluaran', rp(gKeluar)) + '\n';
+            s += tdl() + '\n';
+            const shu = gIuran + gDenda + gBunga - gKeluar;
+            s += tr2('SHU', rp(shu)) + '\n';
+            const lotSHU = Math.floor(Math.max(0, shu) / LV);
+            const sisa = Math.max(0, shu) % LV;
+            const valPerLot = lotSHU > 0 ? shu / lotSHU : 0;
+            s += tr2('Lot SHU', String(lotSHU)) + '\n';
+            s += tr2('Nilai/Lot SHU', rp(valPerLot)) + '\n';
+            s += tr2('Sisa Uang', rp(sisa)) + '\n';
+            s += tl() + '\n';
+            s += tc('Dicetak: ' + fd(td())) + '\n';
+            s += tl() + '\n';
+            document.getElementById('tpa').innerHTML = '<pre>' + s + '</pre>';
+            setTimeout(() => window.print(), 200);
+        }
+
+        /* SHU */
+        function rS() {
+            const {
+                tIuran,
+                tDenda,
+                tBunga,
+                tKeluar,
+                shu
+            } = calcSHU();
+            const aktif = getM().filter(m => m.status === 'aktif');
+            const totalLot = aktif.reduce((s, m) => s + (m.jumlahLot || 1), 0);
+            const lotSHU = Math.floor(Math.max(0, shu) / LV);
+            const sisaUang = Math.max(0, shu) % LV;
+            const valPerLot = totalLot > 0 && lotSHU > 0 ? shu / lotSHU : 0;
+
+            document.getElementById('sSm').innerHTML = [{
+                    l: 'Total Iuran Anggota',
+                    v: rp(tIuran),
+                    bg: '#E8F5E9',
+                    c: '#4A7C59'
+                },
+                {
+                    l: 'Total Denda Keterlambatan',
+                    v: rp(tDenda),
+                    bg: '#FFF8E1',
+                    c: '#D4960A'
+                },
+                {
+                    l: 'Bunga Pinjaman',
+                    v: rp(tBunga),
+                    bg: '#E3F2FD',
+                    c: '#1565C0'
+                },
+                {
+                    l: 'Total Pengeluaran',
+                    v: rp(tKeluar),
+                    bg: '#FFEBEE',
+                    c: '#B44040'
+                }
+            ].map(x => `<div class="sc"><div style="font-size:.76rem;color:var(--mt)">${x.l}</div><div style="font-size:1.1rem;font-weight:700;color:${x.c};margin-top:5px">${x.v}</div></div>`).join('');
+
+            document.getElementById('sMn').innerHTML = `
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:14px;position:relative;z-index:1">
+            <div><p style="font-size:.76rem;opacity:.8;margin-bottom:2px">SHU</p><p style="font-size:1.5rem;font-weight:900;font-family:'Playfair Display',serif">${rp(shu)}</p></div>
+            <div style="text-align:center"><p style="font-size:.76rem;opacity:.8;margin-bottom:2px">Total Lot SHU</p><p style="font-size:1.5rem;font-weight:900;font-family:'Playfair Display',serif">${lotSHU}</p></div>
+            <div style="text-align:center"><p style="font-size:.76rem;opacity:.8;margin-bottom:2px">Nilai / Lot SHU</p><p style="font-size:1.5rem;font-weight:900;font-family:'Playfair Display',serif">${rp(valPerLot)}</p></div>
+            <div style="text-align:right"><p style="font-size:.76rem;opacity:.8;margin-bottom:2px">Sisa Uang</p><p style="font-size:1.2rem;font-weight:700;font-family:'Playfair Display',serif">${rp(sisaUang)}</p></div>
+        </div>
+    `;
+
+            const tb = document.getElementById('sTb');
+            if (!aktif.length || lotSHU <= 0) {
+                tb.innerHTML = '<tr><td colspan="6" class="es"><i class="fas fa-chart-pie"></i><p>Tidak ada data untuk distribusi</p></td></tr>';
+                return
+            }
+            let rows = aktif.map((m, i) => {
+                const lot = m.jumlahLot || 1;
+                const proporsi = lot / totalLot;
+                const lotSHUm = proporsi * lotSHU;
+                const bagian = lotSHUm * valPerLot;
+                return `<tr><td>${i+1}</td><td style="font-weight:600">${m.name}</td><td style="text-align:center;font-weight:700;color:var(--ac)">${lot}</td><td style="text-align:center">${(proporsi*100).toFixed(1)}%</td><td style="text-align:center;font-weight:600">${lotSHUm%1===0?lotSHUm:lotSHUm.toFixed(2)}</td><td style="font-weight:700">${rp(bagian)}</td></tr>`;
+            }).join('');
+            rows += `<tr style="background:var(--acl);font-weight:700"><td colspan="2" style="text-align:right">Total</td><td style="text-align:center;color:var(--ac)">${totalLot}</td><td>100%</td><td style="text-align:center;color:var(--ac)">${lotSHU}</td><td>${rp(shu)}</td></tr>`;
+            tb.innerHTML = rows;
+        }
+
+        function printSHU() {
+            const {
+                tIuran,
+                tDenda,
+                tBunga,
+                tKeluar,
+                shu
+            } = calcSHU();
+            const aktif = getM().filter(m => m.status === 'aktif');
+            const totalLot = aktif.reduce((s, m) => s + (m.jumlahLot || 1), 0);
+            const lotSHU = Math.floor(Math.max(0, shu) / LV);
+            const sisaUang = Math.max(0, shu) % LV;
+            const valPerLot = totalLot > 0 && lotSHU > 0 ? shu / lotSHU : 0;
+            let s = '';
+            s += tl() + '\n';
+            s += tc(gNm().toUpperCase()) + '\n';
+            s += tc('LAPORAN SHU') + '\n';
+            s += tl() + '\n\n';
+            s += 'KOMPOSISI SHU:\n';
+            s += tdl() + '\n';
+            s += tr2('Iuran Anggota', rp(tIuran)) + '\n';
+            s += tr2('Denda Keterlambatan', rp(tDenda)) + '\n';
+            s += tr2('Bunga Pinjaman', rp(tBunga)) + '\n';
+            s += tr2('Pengeluaran', '(' + rp(tKeluar) + ')') + '\n';
+            s += tdl() + '\n';
+            s += tr2('TOTAL SHU', rp(shu)) + '\n\n';
+            s += 'DISTRIBUSI SHU:\n';
+            s += tdl() + '\n';
+            s += tr('Nama', 'Lot', 'Bagian') + '\n';
+            s += tdl() + '\n';
+            aktif.forEach(m => {
+                const lot = m.jumlahLot || 1;
+                const proporsi = lot / totalLot;
+                const lotSHUm = proporsi * lotSHU;
+                const bagian = lotSHUm * valPerLot;
+                s += tr(m.name, String(lot), rp(bagian)) + '\n';
+            });
+            s += tdl() + '\n';
+            s += tr2('Total Lot', String(totalLot)) + '\n';
+            s += tr2('Lot SHU', String(lotSHU)) + '\n';
+            s += tr2('Nilai/Lot SHU', rp(valPerLot)) + '\n';
+            s += tr2('Sisa Uang', rp(sisaUang)) + '\n';
+            s += tl() + '\n';
+            s += tc('Dicetak: ' + fd(td())) + '\n';
+            s += tl() + '\n';
+            document.getElementById('tpa').innerHTML = '<pre>' + s + '</pre>';
+            setTimeout(() => window.print(), 200);
+        }
+
+        /* DATA CONTOH */
+        function loadEx() {
+            if (gM().length) {
+                opC('Data akan diganti contoh. Lanjutkan?', doEx)
+            } else {
+                doEx()
+            }
+        }
+
+        function doEx() {
+            const m1 = uid(),
+                m2 = uid(),
+                m3 = uid(),
+                m4 = uid(),
+                m5 = uid(),
+                m6 = uid();
+            G.s('m', [{
+                    id: m1,
+                    name: 'Siti Aminah',
+                    joinDate: '2025-01-05',
+                    status: 'aktif',
+                    jumlahLot: 2
+                },
+                {
+                    id: m2,
+                    name: 'Budi Santoso',
+                    joinDate: '2025-01-05',
+                    status: 'aktif',
+                    jumlahLot: 1
+                },
+                {
+                    id: m3,
+                    name: 'Dewi Lestari',
+                    joinDate: '2025-01-12',
+                    status: 'aktif',
+                    jumlahLot: 2
+                },
+                {
+                    id: m4,
+                    name: 'Ahmad Ridwan',
+                    joinDate: '2025-01-12',
+                    status: 'aktif',
+                    jumlahLot: 1
+                },
+                {
+                    id: m5,
+                    name: 'Rina Wulandari',
+                    joinDate: '2025-02-01',
+                    status: 'aktif',
+                    jumlahLot: 1
+                },
+                {
+                    id: m6,
+                    name: 'Hasan Basri',
+                    joinDate: '2025-02-15',
+                    status: 'aktif',
+                    jumlahLot: 1
+                }
+            ]);
+            // Total lot = 8, iuran per bulan = 8 x 20.000 = 160.000
+            G.s('i', [
+                // April 2025
+                {
+                    id: uid(),
+                    type: 'iuran',
+                    date: '2025-04-05',
+                    description: 'Iuran April 2025',
+                    memberId: null,
+                    amount: 160000
+                },
+                {
+                    id: uid(),
+                    type: 'denda',
+                    date: '2025-04-07',
+                    description: 'Denda Budi telat bayar',
+                    memberId: m2,
+                    amount: 10000
+                },
+                // Mei 2025
+                {
+                    id: uid(),
+                    type: 'iuran',
+                    date: '2025-05-05',
+                    description: 'Iuran Mei 2025',
+                    memberId: null,
+                    amount: 160000
+                },
+                // Juni 2025
+                {
+                    id: uid(),
+                    type: 'iuran',
+                    date: '2025-06-05',
+                    description: 'Iuran Juni 2025',
+                    memberId: null,
+                    amount: 160000
+                },
+                {
+                    id: uid(),
+                    type: 'denda',
+                    date: '2025-06-08',
+                    description: 'Denda Ahmad & Rina telat',
+                    memberId: null,
+                    amount: 20000
+                },
+                // Juli 2025
+                {
+                    id: uid(),
+                    type: 'iuran',
+                    date: '2025-07-05',
+                    description: 'Iuran Juli 2025',
+                    memberId: null,
+                    amount: 160000
+                },
+                // Agustus 2025
+                {
+                    id: uid(),
+                    type: 'iuran',
+                    date: '2025-08-05',
+                    description: 'Iuran Agustus 2025',
+                    memberId: null,
+                    amount: 160000
+                },
+                {
+                    id: uid(),
+                    type: 'denda',
+                    date: '2025-08-10',
+                    description: 'Denda Hasan telat',
+                    memberId: m6,
+                    amount: 10000
+                }
+            ]);
+            G.s('e', [{
+                    id: uid(),
+                    date: '2025-04-10',
+                    description: 'Beli kantong plastik & tali',
+                    amount: 35000
+                },
+                {
+                    id: uid(),
+                    date: '2025-05-15',
+                    description: 'Transportasi ambil gula',
+                    amount: 50000
+                },
+                {
+                    id: uid(),
+                    date: '2025-07-10',
+                    description: 'ATK & fotokopi',
+                    amount: 25000
+                }
+            ]);
+            G.s('l', [{
+                    id: uid(),
+                    memberId: m2,
+                    principal: 1000000,
+                    interest: 50000,
+                    totalDue: 1050000,
+                    date: '2025-04-15',
+                    description: 'Modal dagang',
+                    repayments: [{
+                        amount: 525000,
+                        date: '2025-05-01'
+                    }, {
+                        amount: 525000,
+                        date: '2025-06-15'
+                    }],
+                    status: 'lunas'
+                },
+                {
+                    id: uid(),
+                    memberId: m5,
+                    principal: 500000,
+                    interest: 25000,
+                    totalDue: 525000,
+                    date: '2025-06-05',
+                    description: 'Keperluan mendesak',
+                    repayments: [{
+                        amount: 200000,
+                        date: '2025-07-10'
+                    }],
+                    status: 'aktif'
+                }
+            ]);
+            G.ss('yr', '2025');
+            G.ss('nm', 'Andilan Gula Makmur');
+            document.getElementById('sbNm').textContent = gNm();
+            document.getElementById('sbPr').textContent = 'Apr 2025 - Mar 2026';
+            toast('Data contoh dimuat', 'i');
+            go('dashboard');
+        }
+
+        function rstAll() {
+            opC('Hapus SEMUA data?', () => {
+                ['m', 'i', 'e', 'l'].forEach(k => G.s(k, []));
+                G.ss('yr', String(dYr()));
+                G.ss('nm', 'Andilan Gula');
+                document.getElementById('sbNm').textContent = 'Andilan Gula';
+                document.getElementById('sbPr').textContent = 'Apr ' + dYr() + ' - Mar ' + (dYr() + 1);
+                toast('Semua data dihapus', 'i');
+                go('dashboard')
+            })
+        }
+
+        /* PARTIKEL */
+        function initP() {
+            const cv = document.getElementById('ptc'),
+                cx = cv.getContext('2d');
+            let w, h, ps = [];
+
+            function rs() {
+                w = cv.width = innerWidth;
+                h = cv.height = innerHeight
+            }
+            rs();
+            addEventListener('resize', rs);
+            for (let i = 0; i < 25; i++) ps.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                r: Math.random() * 1.8 + .6,
+                vx: (Math.random() - .5) * .2,
+                vy: (Math.random() - .5) * .12 - .04,
+                a: Math.random() * .18 + .05
+            });
+            (function a() {
+                cx.clearRect(0, 0, w, h);
+                ps.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < -8) p.x = w + 8;
+                    if (p.x > w + 8) p.x = -8;
+                    if (p.y < -8) p.y = h + 8;
+                    if (p.y > h + 8) p.y = -8;
+                    cx.beginPath();
+                    cx.arc(p.x, p.y, Math.max(.4, p.r), 0, Math.PI * 2);
+                    cx.fillStyle = `rgba(194,112,62,${p.a})`;
+                    cx.fill()
+                });
+                requestAnimationFrame(a)
+            })();
+        }
+
+        /* INIT */
+        document.addEventListener('DOMContentLoaded', () => {
+            initP();
+            document.getElementById('sbNm').textContent = gNm();
+            document.getElementById('sbPr').textContent = 'Apr ' + gYr() + ' - Mar ' + (gYr() + 1);
+            rD();
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                clM();
+                clC()
+            }
+        });
+    </script>
+</body>
+
+</html>
